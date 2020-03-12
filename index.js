@@ -76,9 +76,8 @@
             .attr("height", function(d) { return measurements.height - y(d.length); })
             .style("fill", "steelblue")
             .on("mouseover", function (d) {
-                data.filter(data => data["monthly_price"] >= d.x0 && data["monthly_price"] <= d.x1)
-                // console.log(data)
-                // console.log(data.filter(data => data["monthly_price"]))
+                let tempData = data.filter(data => data["monthly_price"] >= d.x0 && data["monthly_price"] <= d.x1)
+                console.log(tempData)
                 tooltip.transition()
                 .duration(200)
                 .style("opacity", 1);
@@ -122,39 +121,39 @@
                         .data(mapdata.features)
                         .enter()
                         .append('path')
-                            .attr('fill', '#878787')
+                            .attr('fill', 'lightgray')
                             .attr('stroke', 'black')
                             .attr('d', geoPath)
 
                         // plots circles on the nyc map and adds on-click function 
                         // that transitions point to new direction + removes point from map.
-                        // let bnb = tSvg.append( "g" ).attr( "id", "bnb" );
-                        // bnb.selectAll('.circle')
-                        //     .data(data)
-                        //     .enter()
-                        //     .append('circle')
-                        //         .attr('cx', function(d) { 
-                        //             let scaledPoints = albersProj([d['longitude'], d['latitude']])
-                        //             return scaledPoints[0]
-                        //         })
-                        //         .attr('cy', function(d) {
-                        //             let scaledPoints = albersProj([d['longitude'], d['latitude']])
-                        //             return scaledPoints[1]
-                        //         })
-                        //         .attr('r', 4)
-                        //         .attr('fill', 'steelblue')
-                        //         .attr("stroke", "black")
-                        //         .on( "click", function(){
-                        //             let thing = d3.select(this)
-                        //                 .attr("opacity", 1)
-                        //                 .transition()
-                        //                     .duration( 2000 )
-                        //                     .attr( "cy", 1000 )
-                        //                     .attr( "opacity", 0 )
-                        //                     .on("end", function(thing) {
-                        //                         d3.select(this).remove();
-                        //                     })
-                        //         });
+                        let bnb = tSvg.append( "g" ).attr( "id", "bnb" );
+                        bnb.selectAll('.circle')
+                            .data(tempData)
+                            .enter()
+                            .append('circle')
+                                .attr('cx', function(d) { 
+                                    let scaledPoints = albersProj([d['longitude'], d['latitude']])
+                                    return scaledPoints[0]
+                                })
+                                .attr('cy', function(d) {
+                                    let scaledPoints = albersProj([d['longitude'], d['latitude']])
+                                    return scaledPoints[1]
+                                })
+                                .attr('r', 4)
+                                .attr('fill', 'steelblue')
+                                .attr("stroke", "black")
+                                .on( "click", function(){
+                                    let thing = d3.select(this)
+                                        .attr("opacity", 1)
+                                        .transition()
+                                            .duration( 2000 )
+                                            .attr( "cy", 1000 )
+                                            .attr( "opacity", 0 )
+                                            .on("end", function(thing) {
+                                                d3.select(this).remove();
+                                            })
+                                });
 
                         
                     // })
